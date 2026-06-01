@@ -178,6 +178,46 @@ begin
   end;
   WriteLn;
 end;
+{ ================= ДОБАВЛЕНИЕ ЗАКАЗА ================= }
+procedure AddOrder;
+var
+  O: TOrder;
+  NewNode: POrderNode;
+begin
+  Write('Номер заказа: ');
+  ReadLn(O.OrderNumber);
+  Write('Номер столика: ');
+  ReadLn(O.TableNumber);
+  Write('Код блюда: ');
+  ReadLn(O.DishCode);
+  Write('Количество: ');
+  ReadLn(O.Quantity);
+  New(NewNode);
+  NewNode^.Data := O;
+  NewNode^.Next := OrderHead;
+  OrderHead := NewNode;
+  WriteLn('Заказ добавлен');
+end;
+{ ================= ПОКАЗ ЗАКАЗОВ ================= }
+procedure ShowOrders;
+var
+  P: POrderNode;
+begin
+  P := OrderHead;
+  WriteLn;
+  WriteLn('===== ЗАКАЗЫ =====');
+  while P <> nil do
+  begin
+    WriteLn(
+      'Заказ: ', P^.Data.OrderNumber,
+      ' | Стол: ', P^.Data.TableNumber,
+      ' | Код блюда: ', P^.Data.DishCode,
+      ' | Кол-во: ', P^.Data.Quantity
+    );
+    P := P^.Next;
+  end;
+  WriteLn;
+end;
 begin
 repeat WriteLn('========== МЕНЮ ==========');
   WriteLn('1 - Добавить блюдо');
