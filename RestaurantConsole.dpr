@@ -30,6 +30,45 @@ type
 var
   DishHead: PDishNode = nil;
   OrderHead: POrderNode = nil;
+{ ================= ДОБАВЛЕНИЕ БЛЮДА ================= }
+procedure AddDish;
+var
+  D: TDish;
+  NewNode: PDishNode;
+begin
+  Write('Код блюда: ');
+  ReadLn(D.Code);
+  Write('Название: ');
+  ReadLn(D.Name);
+  Write('Описание: ');
+  ReadLn(D.Description);
+  Write('Цена: ');
+  ReadLn(D.Price);
+  New(NewNode);
+  NewNode^.Data := D;
+  NewNode^.Next := DishHead;
+  DishHead := NewNode;
+  WriteLn('Блюдо добавлено');
+  WriteLn;
+end;
+{ ================= ПОКАЗ БЛЮД ================= }
+procedure ShowDishes;
+var
+  P: PDishNode;
+begin
+  P := DishHead;
+  WriteLn;
+  WriteLn('===== СПИСОК БЛЮД =====');
+  while P <> nil do
+  begin
+    WriteLn(
+      'Код: ', P^.Data.Code,
+      ' | Название: ', P^.Data.Name,
+      ' | Цена: ', P^.Data.Price:0:2);
+    P := P^.Next;
+  end;
+  WriteLn;
+end;
 begin
 repeat WriteLn('========== МЕНЮ ==========');
   WriteLn('1 - Добавить блюдо');
