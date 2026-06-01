@@ -218,6 +218,76 @@ begin
   end;
   WriteLn;
 end;
+{ ================= СОХРАНЕНИЕ ================= }
+procedure SaveMenu;
+var
+  F: file of TDish;
+  P: PDishNode;
+begin
+  AssignFile(F, 'menu.dat');
+  Rewrite(F);
+  P := DishHead;
+  while P <> nil do
+  begin
+    Write(F, P^.Data);
+    P := P^.Next;
+  end;
+  CloseFile(F);
+end;
+procedure SaveOrders;
+var
+  F: file of TOrder;
+  P: POrderNode;
+begin
+  AssignFile(F, 'orders.dat');
+  Rewrite(F);
+  P := OrderHead;
+  while P <> nil do
+  begin
+    Write(F, P^.Data);
+    P := P^.Next;
+  end;
+  CloseFile(F);
+end;
+{ ================= ЗАГРУЗКА ================= }
+procedure LoadMenu;
+var
+  F: file of TDish;
+  D: TDish;
+  NewNode: PDishNode;
+begin
+  if not FileExists('menu.dat') then Exit;
+  AssignFile(F, 'menu.dat');
+  Reset(F);
+  while not EOF(F) do
+  begin
+    Read(F, D);
+    New(NewNode);
+    NewNode^.Data := D;
+    NewNode^.Next := DishHead;
+    DishHead := NewNode;
+  end;
+  CloseFile(F);
+end;
+procedure LoadOrders;
+var
+  F: file of TOrder;
+  O: TOrder;
+  NewNode: POrderNode;
+begin
+  if not FileExists('orders.dat') then Exit;
+  AssignFile(F, 'orders.dat');
+  Reset(F);
+  while not EOF(F) do
+  begin
+    Read(F, O);
+    New(NewNode);
+    NewNode^.Data := O;
+    NewNode^.Next := OrderHead;
+    OrderHead := NewNode;
+  end;
+  CloseFile(F);
+end;
 begin
 repeat WriteLn('========== МЕНЮ ==========');
   WriteLn('1 - Добавить блюдо');
