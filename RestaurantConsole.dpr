@@ -288,8 +288,13 @@ begin
   end;
   CloseFile(F);
 end;
+{ ================= ГЛАВНОЕ МЕНЮ ================= }
+var
+Choice: Integer;
 begin
-repeat WriteLn('========== МЕНЮ ==========');
+  LoadMenu;
+  LoadOrders;
+  repeat WriteLn('========== МЕНЮ ==========');
   WriteLn('1 - Добавить блюдо');
   WriteLn('2 - Показать блюда');
   WriteLn('3 - Удалить блюдо');
@@ -302,8 +307,36 @@ repeat WriteLn('========== МЕНЮ ==========');
   WriteLn('0 - Выход без сохранения');
   Write('Выбор: ');
   ReadLn(Choice);
+  WriteLn;
 case Choice of
-9: Break;
-    end;
-  until False;
+  1: AddDish;
+  2: ShowDishes;
+  3: DeleteDish;
+  4: EditDish;
+  5:
+begin
+  SortDishesByPrice;
+  ShowDishes;
+end;
+6: SearchDish;
+7: AddOrder;
+8: ShowOrders;
+9:
+begin
+  SaveMenu;
+  SaveOrders;
+  WriteLn('Данные сохранены');
+  Break;
+end;
+0:
+begin
+  WriteLn('Выход без сохранения');
+  Break;
+end;
+else WriteLn('Неверный пункт меню');
+end;
+  WriteLn;
+  WriteLn('Нажмите Enter...');
+  ReadLn;
+until False;
 end.
