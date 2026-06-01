@@ -124,6 +124,60 @@ begin
   end;
   WriteLn('Блюдо не найдено');
 end;
+{ ================= СОРТИРОВКА ================= }
+procedure SortDishesByPrice;
+var
+  I, J: PDishNode;
+  Temp: TDish;
+begin
+  I := DishHead;
+  while I <> nil do
+  begin
+    J := I^.Next;
+    while J <> nil do
+    begin
+      if I^.Data.Price > J^.Data.Price then
+      begin
+        Temp := I^.Data;
+        I^.Data := J^.Data;
+        J^.Data := Temp;
+      end;
+      J := J^.Next;
+    end;
+    I := I^.Next;
+  end;
+  Writeln('Сортировка выполнена');
+end;
+{ ================= ПОИСК ================= }
+procedure SearchDish;
+var
+  MinPrice, MaxPrice: Real;
+  P: PDishNode;
+begin
+  Write('Минимальная цена: ');
+  ReadLn(MinPrice);
+  Write('Максимальная цена: ');
+  ReadLn(MaxPrice);
+  P := DishHead;
+  WriteLn;
+  WriteLn('Результаты поиска:');
+  while P <> nil do
+  begin
+    if (P^.Data.Price >= MinPrice) and
+       (P^.Data.Price <= MaxPrice) then
+    begin
+      WriteLn(
+        P^.Data.Code,
+        ' | ',
+        P^.Data.Name,
+        ' | ',
+        P^.Data.Price:0:2
+      );
+    end;
+    P := P^.Next;
+  end;
+  WriteLn;
+end;
 begin
 repeat WriteLn('========== МЕНЮ ==========');
   WriteLn('1 - Добавить блюдо');
