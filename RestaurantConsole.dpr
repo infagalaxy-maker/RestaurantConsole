@@ -69,6 +69,61 @@ begin
   end;
   WriteLn;
 end;
+{ ================= УДАЛЕНИЕ БЛЮДА ================= }
+procedure DeleteDish;
+var
+  Code: Integer;
+  Current, Prev: PDishNode;
+begin
+  Write('Введите код блюда: ');
+  ReadLn(Code);
+  Current := DishHead;
+  Prev := nil;
+  while Current <> nil do
+  begin
+    if Current^.Data.Code = Code then
+    begin
+      if Prev = nil then
+        DishHead := Current^.Next
+      else
+        Prev^.Next := Current^.Next;
+      Dispose(Current);
+      WriteLn('Блюдо удалено');
+      Exit;
+    end;
+    Prev := Current;
+    Current := Current^.Next;
+  end;
+  WriteLn('Блюдо не найдено');
+end;
+{ ================= РЕДАКТИРОВАНИЕ ================= }
+procedure EditDish;
+var
+  Code: Integer;
+  NewPrice: Real;
+  NewDesc: string;
+  P: PDishNode;
+begin
+  Write('Введите код блюда: ');
+  ReadLn(Code);
+  P := DishHead;
+  while P <> nil do
+  begin
+    if P^.Data.Code = Code then
+    begin
+      Write('Новая цена: ');
+      ReadLn(NewPrice);
+      Write('Новое описание: ');
+      ReadLn(NewDesc);
+      P^.Data.Price := NewPrice;
+      P^.Data.Description := NewDesc;
+      WriteLn('Блюдо изменено');
+      Exit;
+    end;
+    P := P^.Next;
+  end;
+  WriteLn('Блюдо не найдено');
+end;
 begin
 repeat WriteLn('========== МЕНЮ ==========');
   WriteLn('1 - Добавить блюдо');
